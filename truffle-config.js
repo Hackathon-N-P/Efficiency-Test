@@ -42,8 +42,8 @@ module.exports = {
 	port: 6789,            // 链端口号       
 	network_id: "*",       // Any network (default: none)       
 	from: "lat1hszgljlqnlly6hxcneq6v2vdnaj9hfvm7m7ccz", //部署合约账号的钱包地址       
-	//gas: 9000000,       
-	//gasPrice: 900000000004,    
+	// gas: 9000000,       
+	// gasPrice: 10000000000,    
 	},
   },
 

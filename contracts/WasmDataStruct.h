@@ -52,6 +52,21 @@ public:
 	CONST std::vector<UserDefinedData> getUserFromMap(const platon::u128& uID);
 
 	CONST std::vector<UserDefinedData> getUserFromStorageType(const platon::u128& uID);
+
+	// Performance Evaluation
+	ACTION void CreateData(const platon::u128& MaxID);
+
+	ACTION void AddUserForMap(const UserDefinedData& udd);
+	ACTION void AddUserForST(const UserDefinedData& udd);
+	ACTION void AddUserForMI(const UserDefinedData& udd);
+
+	ACTION void ModifyForMap(const UserDefinedData& udd);
+	ACTION void ModifyForST(const UserDefinedData& udd);
+	ACTION void ModifyForMI(const UserDefinedData& udd);
+
+	ACTION void EraseForMap(const platon::u128& uID);
+	ACTION void EraseForST(const platon::u128& uID);
+	ACTION void EraseForMI(const platon::u128& uID);
 };
 
 PLATON_DISPATCH(WasmDataStruct, (init)(AddUser)(ModifyUserInfo)(UserErase)(Clear)(getUserFromTable_ID)(getUserFromTable_Name)(getUserFromMap)(getUserFromStorageType))

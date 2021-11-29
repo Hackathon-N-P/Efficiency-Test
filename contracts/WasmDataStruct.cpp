@@ -135,3 +135,91 @@ std::vector<UserDefinedData> WasmDataStruct::getUserFromStorageType(const platon
 
 	return udVec;
 }
+
+// Performace Evaluation
+void WasmDataStruct::CreateData(const platon::u128& MaxID)
+{
+	for (auto i = 0; i < MaxID; ++i)
+	{
+		UserDefinedData udd;
+		udd.uID = i;
+		udd.uName = std::to_string(i);
+		udd.uContent = "Hello";
+
+		AddUser(udd);
+	}
+}
+
+void WasmDataStruct::AddUserForMap(const UserDefinedData& udd)
+{
+	_mUserMap[udd.uID] = udd;
+}
+
+void WasmDataStruct::AddUserForST(const UserDefinedData& udd)
+{
+	_mUser_Data.self()[udd.uID] = udd;
+}
+
+void WasmDataStruct::AddUserForMI(const UserDefinedData& udd)
+{
+	_mUser_table.emplace([&](auto& userTable) {
+		userTable = udd;
+		});
+}
+
+void WasmDataStruct::ModifyForMap(const UserDefinedData& udd)
+{
+	//_mUserMap
+	if (_mUserMap.contains(udd.uID))
+	{
+		_mUserMap[udd.uID] = udd;
+	}
+}
+
+void WasmDataStruct::ModifyForST(const UserDefinedData& udd)
+{
+	//_mUser_Data
+	auto udItr = _mUser_Data.self().find(udd.uID);
+	if (udItr != _mUser_Data.self().end())
+	{
+		udItr->second = udd;
+	}
+}
+
+void WasmDataStruct::ModifyForMI(const UserDefinedData& udd)
+{
+	//_mUser_table
+	auto uTableItr = _mUser_table.find<"id"_n>(udd.uID);
+	if (uTableItr != _mUser_table.cend())
+	{
+		_mUser_table.modify(uTableItr, [&](auto& userData) {
+			userData = udd;
+			});
+	}
+}
+
+void WasmDataStruct::EraseForMap(const platon::u128& uID){
+	//_mUserMap
+	if (_mUserMap.contains(uID))
+	{
+		_mUserMap.erase(uID);
+	}
+}
+
+void WasmDataStruct::EraseForST(const platon::u128& uID){
+	//_mUser_Data
+	auto udItr = _mUser_Data.self().find(uID);
+	if (udItr != _mUser_Data.self().end())
+	{
+		_mUser_Data.self().erase(udItr);
+	}
+}
+
+void WasmDataStruct::EraseForMI(const platon::u128& uID){
+	//_mUser_table
+	auto uTableItr = _mUser_table.find<"id"_n>(uID);
+	if (uTableItr != _mUser_table.cend())
+	{
+		_mUser_table.erase(uTableItr);
+	}
+}
