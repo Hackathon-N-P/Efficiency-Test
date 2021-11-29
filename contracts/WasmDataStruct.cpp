@@ -137,16 +137,44 @@ std::vector<UserDefinedData> WasmDataStruct::getUserFromStorageType(const platon
 }
 
 // Performace Evaluation
-void WasmDataStruct::CreateData(const platon::u128& MaxID)
+void WasmDataStruct::CreateDataForMap(const platon::u128& MinID, const platon::u128& MaxID)
 {
-	for (auto i = 0; i < MaxID; ++i)
+	for (auto i = MinID; i < MaxID; ++i)
 	{
 		UserDefinedData udd;
 		udd.uID = i;
 		udd.uName = std::to_string(i);
 		udd.uContent = "Hello";
 
-		AddUser(udd);
+		_mUserMap[udd.uID] = udd;
+	}
+}
+
+void WasmDataStruct::CreateDataForST(const platon::u128& MinID, const platon::u128& MaxID)
+{
+	for (auto i = MinID; i < MaxID; ++i)
+	{
+		UserDefinedData udd;
+		udd.uID = i;
+		udd.uName = std::to_string(i);
+		udd.uContent = "Hello";
+
+		_mUser_Data.self()[udd.uID] = udd;
+	}
+}
+
+void WasmDataStruct::CreateDataForMI(const platon::u128& MinID, const platon::u128& MaxID)
+{
+	for (auto i = MinID; i < MaxID; ++i)
+	{
+		UserDefinedData udd;
+		udd.uID = i;
+		udd.uName = std::to_string(i);
+		udd.uContent = "Hello";
+
+		_mUser_table.emplace([&](auto& userTable) {
+			userTable = udd;
+			});
 	}
 }
 
@@ -222,4 +250,15 @@ void WasmDataStruct::EraseForMI(const platon::u128& uID){
 	{
 		_mUser_table.erase(uTableItr);
 	}
+}
+
+std::string WasmDataStruct::getItemDescription()
+{
+	std::string output = "Items count: ";
+
+	auto count = _mUser_Data.self().size();
+
+	output += std::to_string(count);
+
+	return output;
 }
