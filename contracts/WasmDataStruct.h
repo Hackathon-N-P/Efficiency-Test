@@ -70,6 +70,9 @@ public:
 	ACTION void EraseForST(const platon::u128& uID);
 	ACTION void EraseForMI(const platon::u128& uID);
 
+	// Clear data who's ID number are less than MaxID
+	ACTION void BatchClear(const platon::u128& MaxID);
+
 	CONST std::string getItemDescription();
 };
 
@@ -79,4 +82,5 @@ PLATON_DISPATCH(WasmDataStruct, (init)
 (ModifyForMap)(ModifyForST)(ModifyForMI)
 (EraseForMap)(EraseForST)(EraseForMI)
 (getItemDescription)
-(Clear))
+(BatchClear)
+(getUserFromTable_ID)(getUserFromMap)(getUserFromStorageType))

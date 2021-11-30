@@ -262,3 +262,48 @@ std::string WasmDataStruct::getItemDescription()
 
 	return output;
 }
+
+void WasmDataStruct::BatchClear(const platon::u128& MaxID){
+	//normal map
+	auto ST_Itr = _mUser_Data.self().begin();
+	while (ST_Itr != _mUser_Data.self().end())
+	{
+		auto tempItr = ST_Itr;
+		++ST_Itr;
+		if (tempItr->first < MaxID)
+		{
+			_mUser_Data.self().erase(tempItr);
+		}
+	}
+
+	//db::Map
+	for (auto id = 0; id < MaxID; ++id)
+	{
+		if (_mUserMap.contains(id))
+		{
+			_mUserMap.erase(id);
+		}
+	}
+
+	//db::MultiIndex
+	// auto tableItr = _mUser_table.cbegin();
+	// while (tableItr != _mUser_table.cend())
+	// {
+	// 	if (tableItr->uID < MaxID)
+	// 	{
+	// 		auto tempItr = tableItr;
+	// 		_mUser_table.erase(tempItr);
+	// 	}
+
+	// 	++tableItr;
+	// }
+
+	for (auto id = 0; id < MaxID; ++id)
+	{
+		auto uTableItr = _mUser_table.find<"id"_n>(id);
+		if (uTableItr != _mUser_table.cend())
+		{
+			_mUser_table.erase(uTableItr);
+		}
+	}
+}
