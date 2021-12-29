@@ -76,11 +76,11 @@ public:
 	CONST std::string getItemDescription();
 };
 
-PLATON_DISPATCH(WasmDataStruct, (init)
+PLATON_DISPATCH(WasmDataStruct, (init)(AddUser)(ModifyUserInfo)(UserErase)(Clear)
 (CreateDataForMap)(CreateDataForST)(CreateDataForMI)
 (AddUserForMap)(AddUserForST)(AddUserForMI)
 (ModifyForMap)(ModifyForST)(ModifyForMI)
 (EraseForMap)(EraseForST)(EraseForMI)
 (getItemDescription)
 (BatchClear)
-(getUserFromTable_ID)(getUserFromMap)(getUserFromStorageType))
+(getUserFromTable_ID)(getUserFromMap)(getUserFromStorageType)(getUserFromTable_Name))

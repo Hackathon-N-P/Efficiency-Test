@@ -32,9 +32,22 @@ void WasmDataStruct::ModifyUserInfo(const UserDefinedData& udd){
 	if (uTableItr != _mUser_table.cend())
 	{
 		_mUser_table.modify(uTableItr, [&](auto& userData) {
-			userData = udd;
-			});
+			// userData = udd;
+			// userData.uName = udd.uName;
+			userData.uContent = udd.uContent;
+			auto tmpName = userData.uName;
+			auto tmpID = userData.uID;
+		});
 	}
+	// auto uTableItrs = _mUser_table.get_index<"name"_n>();
+	// auto itemItr = uTableItrs.cbegin(udd.uName); 
+	// if (itemItr != uTableItrs.cend(udd.uName))
+	// {
+	// 	uTableItrs.modify(itemItr, [&](auto& userData){
+	// 		userData = udd;
+	// 		userData.uID = 4;
+	// 	});
+	// }
 }
 
 void WasmDataStruct::UserErase(const platon::u128& uID){
