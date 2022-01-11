@@ -17,7 +17,9 @@ void WasmDataStruct::ModifyUserInfo(const UserDefinedData& udd){
 	//_mUserMap
 	if (_mUserMap.contains(udd.uID))
 	{
-		_mUserMap[udd.uID] = udd;
+		// _mUserMap[udd.uID] = udd;
+		auto mapItem = &_mUserMap[udd.uID];
+		*mapItem = udd;
 	}
 
 	//_mUser_Data
@@ -34,9 +36,16 @@ void WasmDataStruct::ModifyUserInfo(const UserDefinedData& udd){
 		_mUser_table.modify(uTableItr, [&](auto& userData) {
 			// userData = udd;
 			// userData.uName = udd.uName;
+			// keys cannot be changed
 			userData.uContent = udd.uContent;
 			auto tmpName = userData.uName;
 			auto tmpID = userData.uID;
+
+			userData.uName = "haha";
+			userData.uID = 1100;
+
+			userData.uName = tmpName;
+			userData.uID = tmpID;
 		});
 	}
 	// auto uTableItrs = _mUser_table.get_index<"name"_n>();
